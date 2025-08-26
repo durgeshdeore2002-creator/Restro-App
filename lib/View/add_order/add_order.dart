@@ -2,6 +2,7 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:restro_code/Custom/custom_text.dart';
 import 'package:restro_code/Custom/custombutton.dart';
+import 'package:restro_code/View/add_order/add_details.dart';
 import 'package:restro_code/controller/home_controller.dart';
 
 class AddOrder extends StatefulWidget{
@@ -106,14 +107,19 @@ void showFormBottomSheet(BuildContext context) {
           const Icon(Icons.settings,color: Colors.black,),
           Padding(
             padding: const EdgeInsets.only(top:15,bottom: 15,left: 5,right: 5),
-            child: Container(
-              width: 80,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(color:const Color.fromARGB(255, 240, 238, 238)),
-                borderRadius: BorderRadius.circular(8)
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>OrderDetailsPage()));
+              },
+              child: Container(
+                width: 80,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color:const Color.fromARGB(255, 240, 238, 238)),
+                  borderRadius: BorderRadius.circular(8)
+                ),
+                child: Center(child: CustomText(text: "Add Details", fontWeight: FontWeight.bold,size:12,color: Colors.black,)),
               ),
-              child: Center(child: CustomText(text: "Add Details", fontWeight: FontWeight.bold,size:12,color: Colors.black,)),
             ),
           )
         ],
@@ -195,27 +201,29 @@ void showFormBottomSheet(BuildContext context) {
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 crossAxisSpacing: 5, // horizontal gap
-                mainAxisSpacing: 10,  // vertical gap
+                mainAxisSpacing:0.1,  // vertical gap
                 childAspectRatio: 0.6,  
                 ),
                 itemCount: homePageController.prices.length+1,
                itemBuilder: ((context, index) {
                 return (index == homePageController.prices.length)?
-                GestureDetector(
-                  onTap:(){
-                    showFormBottomSheet(context);
-                  },
-                  child: Center(
-                    child: DottedBorder(
-                    color: Colors.blue, strokeWidth: 2, dashPattern: [6, 3], // 6px line, 3px gap borderType: BorderType.RRect, radius: Radius.circular(12),
-                      child: Container(
-                        height: 150,
-                        width: 110,
-                        alignment: Alignment.center,
-                        child: Icon(Icons.add)
-                      ),
+                Column(
+                  children: [
+                    GestureDetector(
+                      onTap:(){
+                        showFormBottomSheet(context);
+                      },
+                      child: DottedBorder(
+                                
+                        color: Colors.blue, strokeWidth: 2, dashPattern: [6, 3], // 6px line, 3px gap borderType: BorderType.RRect, radius: Radius.circular(12),
+                          child: SizedBox(
+                            height: 150,width: 110,
+                                     child: Icon(Icons.add,)),
+                        ),
+                                   
                     ),
-                  ),
+                    Container(height: 20,)
+                  ],
                 )
                 :Padding(
                   padding: const EdgeInsets.only(left: 5,right: 5),
